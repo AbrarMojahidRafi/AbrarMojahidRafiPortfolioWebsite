@@ -8,7 +8,11 @@ const Home = () => {
   const [loopNum, setLoopNum] = useState(0);
   const [typingSpeed, setTypingSpeed] = useState(150);
 
-  const roles = ['Full Stack Web Developer', 'Frontend Developer', 'Backend Developer'];
+  const roles = React.useMemo(() => [
+    'Full Stack Web Developer',
+    'Frontend Developer',
+    'Backend Developer'
+  ], []);
 
   useEffect(() => {
     const handleTyping = () => {
