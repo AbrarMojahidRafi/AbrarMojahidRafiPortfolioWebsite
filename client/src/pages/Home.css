@@ -1,0 +1,230 @@
+/* Home.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+.hero-section {
+  background: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, #000000, #ca8a04);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.animated-text {
+  color: #ca8a04;
+  font-weight: 600;
+}
+
+.cursor {
+  color: #000000;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #000000, #ca8a04);
+  color: white;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(202, 138, 4, 0.4);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #000000;
+  padding: 12px 28px;
+  border-radius: 30px;
+  border: 2px solid #000000;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(0, 0, 0, 0.05);
+  transform: translateY(-3px);
+  border-color: #ca8a04;
+  color: #ca8a04;
+}
+
+/* Profile Image Styles */
+.profile-image-container {
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  padding: 8px;
+  background: linear-gradient(135deg, #000000, #ca8a04);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  animation: float 6s ease-in-out infinite;
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid white;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+/* Floating Elements */
+.floating-element {
+  position: absolute;
+  background: linear-gradient(135deg, #000000, #ca8a04);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-weight: 500;
+  animation: pulse 2s infinite;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.floating-element-1 {
+  top: 30px;
+  right: 30px;
+  animation-delay: 0s;
+}
+
+.floating-element-2 {
+  bottom: 40px;
+  right: 10px;
+  animation-delay: 0.5s;
+}
+
+.floating-element-3 {
+  top: 100px;
+  left: 10px;
+  animation-delay: 1s;
+}
+
+.floating-element-4 {
+  bottom: 20px;
+  left: 40px;
+  animation-delay: 1.5s;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Social Icons */
+.social-icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #000000, #ca8a04);
+  color: white;
+  border-radius: 50%;
+  font-size: 18px;
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(202, 138, 4, 0.4);
+}
+
+/* Home.css */
+.email-display {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 12px 20px;
+  border-radius: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: 1rem;
+  max-width: fit-content;
+  margin: 1 auto;
+  transition: all 0.3s ease;
+}
+
+.email-display:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+/* If you want to make it responsive */
+@media (max-width: 768px) {
+  .email-display {
+    font-size: 0.85rem;
+    padding: 10px 16px;
+    margin-top: 8px;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-section {
+    text-align: center;
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+  
+  h1.whitespace-nowrap {
+    white-space: normal !important;
+  }
+  
+  .profile-image-container {
+    width: 280px;
+    height: 280px;
+  }
+  
+  .floating-element {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  
+  .floating-element-1 {
+    top: 20px;
+    right: 20px;
+  }
+  
+  .floating-element-2 {
+    bottom: 30px;
+    right: 5px;
+  }
+  
+  .floating-element-3 {
+    top: 80px;
+    left: 5px;
+  }
+  
+  .floating-element-4 {
+    bottom: 15px;
+    left: 30px;
+  }
+}
+
+@media (max-width: 640px) {
+  h1.text-4xl {
+    font-size: 2rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  h2.text-2xl {
+    font-size: 1.5rem !important;
+    line-height: 1.3 !important;
+  }
+}
