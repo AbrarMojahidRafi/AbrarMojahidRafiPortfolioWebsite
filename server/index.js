@@ -7,6 +7,7 @@ const expressSession = require("express-session");
 const errorMiddleware = require("./middleware/error-middleware"); 
 const router = require("./router/auth-router");
 const contactsRouter = require("./router/contacts-router");
+const cors = require("cors");
 
 // models
 // const hishaabModel = require("./models/hishaab"); // format 
@@ -23,6 +24,13 @@ app.use(expressSession({
   saveUninitialized: false
 }));
 app.use(errorMiddleware);
+
+const corsOptions = {
+  origin: "http://localhost:5173",
+  methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 
 app.use("/api/auth/AbrarMojahidRafi_PortfolioWebsite", router);
