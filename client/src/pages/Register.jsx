@@ -1,5 +1,6 @@
-import React from 'react'
-import { useState } from 'react'
+import React from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [user, setUser] = useState({
@@ -19,10 +20,12 @@ const Register = () => {
     });
   };
 
+  const navigate = useNavigate();
+
   // handle form on submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user);
+    // console.log(user);
 
     try {
       const response = await fetch(`http://localhost:3000/api/auth/AbrarMojahidRafi_PortfolioWebsite/register`, {
@@ -32,13 +35,14 @@ const Register = () => {
         },
         body: JSON.stringify(user),
       });
-      console.log("Response Data : ", response);
+      // console.log("Response Data : ", response);
 
       if (response.ok) {
-        const responseData = await response.json();
+        // const responseData = await response.json();
         console.log("registration successful");
         setUser({ username: "", email: "", phone: "", password: "" });
-        console.log(responseData);
+        // console.log(responseData);
+        navigate('/login');
       } else {
         console.log("Error inside RESPONSE:", "Error");
       }
