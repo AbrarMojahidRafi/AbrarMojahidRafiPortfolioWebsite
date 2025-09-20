@@ -27,7 +27,8 @@ const register = async (req, res) => {
         // res.status(200).send("Hello World! From Register controller");
 
         // Extracting data from the request body
-        const { name, contact, email, password } = req.body; 
+        // console.log("Request Body:", req.body);
+        const { username, phone, email, password } = req.body; 
 
         // Check if user with the same email already exists
         const userExists = await UserModel.findOne({ email });
@@ -36,18 +37,19 @@ const register = async (req, res) => {
         }
 
         // Working on the validation part
-        const error = validateUserModel({ name, contact, email, password });  
+        const error = validateUserModel({ name: username, contact: phone, email: email, password: password });  
         if (error) {
 
-            // Using error-handling middleware 
-            const statusCode = 400; // Bad Request
-            const message = error.details[0].message;
-            const extraDetails = "Validation error in user registration";
+            // // Using error-handling middleware 
+            // const statusCode = 400; // Bad Request
+            // const message = error.details[0].message;
+            // const extraDetails = "";
 
-            const error = {statusCode, message, extraDetails}; 
+            // const error = {statusCode, message, extraDetails}; 
 
-            next(error); // Passing the error to the error-handling middleware
-
+            // next(error); // Passing the error to the error-handling middleware
+            console.log("Validation error in user registration");
+            return res.status(400).send(error.details[0].message);
         }
 
         // Hash the password before saving 
@@ -55,7 +57,8 @@ const register = async (req, res) => {
         const hash_password = await bcrypt.hash(password, salt);
 
         // Save the "user" to the database
-        const createdUser = await UserModel.create({ name, contact, email, password: hash_password });
+        // console.log({ username, phone, email, password: hash_password });
+        const createdUser = await UserModel.create({ name: username, contact: phone, email: email, password: hash_password });
 
         // GENERATE JWT TOKEN AND SEND IT TO THE CLIENT
         // printing it right now.

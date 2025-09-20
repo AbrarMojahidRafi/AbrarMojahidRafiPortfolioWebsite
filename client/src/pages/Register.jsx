@@ -22,10 +22,10 @@ const Register = () => {
   // handle form on submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(user);
+    console.log(user);
 
     try {
-      const response = await fetch("http://localhost:3000/api/auth/AbrarMojahidRafi_PortfolioWebsite/register", {
+      const response = await fetch(`http://localhost:3000/api/auth/AbrarMojahidRafi_PortfolioWebsite/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,11 +36,11 @@ const Register = () => {
 
       if (response.ok) {
         const responseData = await response.json();
-        alert("registration successful");
+        console.log("registration successful");
         setUser({ username: "", email: "", phone: "", password: "" });
         console.log(responseData);
       } else {
-        console.log("Error inside RESPONSE ", "error");
+        console.log("Error inside RESPONSE:", "Error");
       }
     } catch (error) {
       console.error("Error", error);

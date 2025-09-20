@@ -25,7 +25,6 @@ const userSchema = mongoose.Schema({
       required: [true, 'Email is required'],
       unique: true,
       lowercase: true,
-      match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address'],
       index: true
     },
     password: {
@@ -45,7 +44,6 @@ function validateUserModel(data){
     const userSchema = Joi.object({
         name: Joi.string()
           .min(3)
-          .max(50)
           .required(),
         
         contact: Joi.string()
@@ -62,10 +60,7 @@ function validateUserModel(data){
         password: Joi.string()
           .min(8)
           .max(128)
-          .required(),
-        
-        isAdmin: Joi.boolean()
-          .default(false)
+          .required()
       });      
 
     let {error} = userSchema.validate(data);
