@@ -1,5 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from "../store/auth.jsx";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -17,10 +19,33 @@ const Login = () => {
     });
   };
 
+  const navigate = useNavigate();
+  const { storeTokenInLS } = useAuth();
+
   // handle form on submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(credentials);
+    // console.log(credentials);
+
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/AbrarMojahidRafi_PortfolioWebsite/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        // console.log("after login: ", responseData);
+        console.log("Login successful");
+        storeTokenInLS(responseData.token);
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
