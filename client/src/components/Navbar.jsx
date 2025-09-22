@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useAuth } from "../store/auth.jsx";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -6,6 +8,8 @@ const Navbar = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const { isLoggedIn } = useAuth();
 
   return (
     <nav className="bg-white shadow-md py-4 px-6">
@@ -15,42 +19,53 @@ const Navbar = () => {
         
         {/* Desktop Navigation - visible on medium screens and above */}
         <div className="hidden md:flex items-center space-x-6">
-          <a 
-            href="/" 
+          <NavLink 
+            to="/" 
             className="text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
           >
             Home
-          </a>
-          <a 
-            href="/about" 
+          </NavLink>
+          <NavLink 
+            to="/about" 
             className="text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
           >
             About
-          </a>
-          <a 
-            href="/contact" 
+          </NavLink>
+          <NavLink 
+            to="/contact" 
             className="text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
           >
             Contact
-          </a>
-          <a 
-            href="/service" 
+          </NavLink>
+          <NavLink 
+            to="/service" 
             className="text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
           >
             Service
-          </a>
-          <a 
-            href="/register" 
-            className="text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
-          >
-            Register
-          </a>
-          <a 
-            href="/login" 
-            className="text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
-          >
-            Login
-          </a>
+          </NavLink>
+          {isLoggedIn ? ( 
+            <NavLink 
+              to="/logout" 
+              className="text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
+            >
+              Logout
+            </NavLink>
+           ) : ( 
+            <> 
+              <NavLink 
+                to="/register" 
+                className="text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
+              >
+                Register
+              </NavLink>
+              <NavLink
+                to="/login" 
+                className="text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
+              >
+                Login
+              </NavLink>
+            </>
+          )}
         </div>
 
         {/* Mobile menu button - visible on small screens */}
@@ -90,48 +105,60 @@ const Navbar = () => {
       {/* Mobile Navigation - visible when menu is open on small screens */}
       {isMenuOpen && (
         <div className="md:hidden mt-4 space-y-2 pb-3">
-          <a 
-            href="/" 
+          <NavLink 
+            to="/" 
             className="block text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
             onClick={() => setIsMenuOpen(false)}
           >
             Home
-          </a>
-          <a 
-            href="/about" 
+          </NavLink>
+          <NavLink 
+            to="/about" 
             className="block text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
             onClick={() => setIsMenuOpen(false)}
           >
             About
-          </a>
-          <a 
-            href="/contact" 
+          </NavLink>
+          <NavLink 
+            to="/contact" 
             className="block text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
             onClick={() => setIsMenuOpen(false)}
           >
             Contact
-          </a>
-          <a 
-            href="/service" 
+          </NavLink>
+          <NavLink 
+            to="/service" 
             className="block text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
             onClick={() => setIsMenuOpen(false)}
           >
             Service
-          </a>
-          <a 
-            href="/register" 
-            className="block text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Register
-          </a>
-          <a 
-            href="/login" 
-            className="block text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Login
-          </a>
+          </NavLink>
+
+          {isLoggedIn ? ( 
+            <NavLink 
+              to="/logout" 
+              className="block text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Logout
+            </NavLink> ) : (
+            <>
+              <NavLink 
+                to="/register" 
+                className="block text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Register
+              </NavLink>
+              <NavLink 
+                to="/login" 
+                className="block text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Login
+              </NavLink>
+            </>
+          )}
         </div>
       )}
     </nav>

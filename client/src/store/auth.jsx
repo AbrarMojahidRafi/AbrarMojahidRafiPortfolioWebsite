@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 
 export const AuthContext = createContext();
 
@@ -10,8 +10,19 @@ export const AuthProvider = ({ children }) => {
     return localStorage.setItem("token", serverToken);
   };
 
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
+
+  const isLoggedIn = !!token; // if token is present then true otherwise false 
+
+  // tackeling the logout functionality
+  const LogoutUser = () => {
+    console.log("User Logged Out Successfully");
+    setToken(null);
+    return localStorage.removeItem("token");
+  }; 
+
   return (
-    <AuthContext.Provider value={{ storeTokenInLS }}>
+    <AuthContext.Provider value={{ storeTokenInLS , LogoutUser, isLoggedIn }}>
       {children}
     </AuthContext.Provider>
   );
