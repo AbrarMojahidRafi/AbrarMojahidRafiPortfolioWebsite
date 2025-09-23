@@ -127,11 +127,22 @@ const login = async (req, res) => {
 }
 
 // --------------------------------
+// User Logic - to get current login user details
+// -------------------------------- 
 
+const user = async (req, res) => {
+    try {
+        const userData = req.user;
+        // console.log(userData); 
+        return res.status(200).json({ msg: userData });
+    } catch (error) {
+        console.error("Error fetching user details:", error);
+    }
+}
 
 
 // -------------------------------- 
 // --------------END--------------- 
 // -------------------------------- 
 
-module.exports = { home, register, login };  
+module.exports = { home, register, login, user };  
