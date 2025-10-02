@@ -12,7 +12,7 @@ const ContactUs = () => {
   const { user } = useAuth();
   const [userData, setUserData] = useState(true); 
   
-  console.log("User data in contact us page: ", user);
+  // console.log("User data in contact us page: ", user);
   // console.log("Username: ", user.name);
   // console.log("Email: ", user.email);
   
@@ -28,7 +28,7 @@ const ContactUs = () => {
     setUserData(false); 
   }
 
-  console.log(contactInfo);
+  // console.log(contactInfo);
   
 
   const handleInput = (e) => {
