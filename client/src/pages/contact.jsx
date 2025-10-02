@@ -5,7 +5,9 @@ import { useAuth } from "../store/auth.jsx";
 const ContactUs = () => {
   const [contactInfo, setContactInfo] = useState({
     username: "",
+    contact: "",
     email: "",
+    subject: "",
     message: "",
   });
 
@@ -21,7 +23,9 @@ const ContactUs = () => {
   if (userData && user) {
     setContactInfo({
       username: user.name,
+      contact: user.contact,
       email: user.email,
+      subject: "",
       message: "",
     });
 
@@ -47,7 +51,7 @@ const ContactUs = () => {
     console.log(contactInfo);
   };
 
-  return (
+return (
     <section className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <main className="max-w-6xl w-full">
         <div className="bg-white rounded-lg shadow-xl overflow-hidden">
@@ -83,6 +87,21 @@ const ContactUs = () => {
                     required
                   />
                 </div>
+
+                <div>
+                  <label htmlFor="contact" className="block text-sm font-medium text-gray-700">
+                    Contact Number
+                  </label>
+                  <input
+                    type="tel"
+                    name="contact"
+                    value={contactInfo.contact}
+                    onChange={handleInput}
+                    placeholder="Enter your contact number"
+                    className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    required
+                  />
+                </div>
                 
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -94,6 +113,21 @@ const ContactUs = () => {
                     value={contactInfo.email}
                     onChange={handleInput}
                     placeholder="Enter your email"
+                    className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
+                    Subject
+                  </label>
+                  <input
+                    type="text"
+                    name="subject"
+                    value={contactInfo.subject}
+                    onChange={handleInput}
+                    placeholder="Enter message subject"
                     className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                     required
                   />
