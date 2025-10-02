@@ -1,8 +1,8 @@
+import { useEffect } from "react";
 import { createContext, useContext, useState } from "react";
 
 export const AuthContext = createContext();
 
-// eslint-disable-next-line react/prop-types
 export const AuthProvider = ({ children }) => {
 
   //function to stored the token in local storage
@@ -21,8 +21,44 @@ export const AuthProvider = ({ children }) => {
     return localStorage.removeItem("token");
   }; 
 
+  // jwt authentication to get the currently user data. 
+  const [user, setUser] = useState(null); 
+  
+  const userAuthentication = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/AbrarMojahidRafi_PortfolioWebsite/user", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      // console.log("Response from user auth endpoint: ", response);
+      
+
+      if (response.ok) {
+        const data = await response.json();
+        // console.log("User data fetched from backend: ", data);
+
+        // our main goal is to get the user data from the backend
+        setUser(data.userData); // user get all the data, except password
+      } else {
+        console.error("Error fetching user data");
+      }
+    } catch (error) {
+      console.error("Error during user authentication:", error);
+    }
+  };
+
+  useEffect(() => {
+    userAuthentication();
+  }, []);
+
+  
+
   return (
-    <AuthContext.Provider value={{ storeTokenInLS , LogoutUser, isLoggedIn }}>
+    <AuthContext.Provider value={{ storeTokenInLS , LogoutUser, isLoggedIn, user }}>
       {children}
     </AuthContext.Provider>
   );

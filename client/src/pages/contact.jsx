@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
+import { useAuth } from "../store/auth.jsx";
 
 const ContactUs = () => {
   const [contactInfo, setContactInfo] = useState({
@@ -7,6 +8,28 @@ const ContactUs = () => {
     email: "",
     message: "",
   });
+
+  const { user } = useAuth();
+  const [userData, setUserData] = useState(true); 
+  
+  console.log("User data in contact us page: ", user);
+  // console.log("Username: ", user.name);
+  // console.log("Email: ", user.email);
+  
+  // console.log(userData);
+  
+  if (userData && user) {
+    setContactInfo({
+      username: user.name,
+      email: user.email,
+      message: "",
+    });
+
+    setUserData(false); 
+  }
+
+  console.log(contactInfo);
+  
 
   const handleInput = (e) => {
     let name = e.target.name;

@@ -131,10 +131,11 @@ const login = async (req, res) => {
 // -------------------------------- 
 
 const user = async (req, res) => {
-    try {
+    try { 
+        // console.log(req.user);
         const userData = req.user;
         // console.log(userData); 
-        return res.status(200).json({ msg: userData });
+        return res.status(200).json({ userData });
     } catch (error) {
         console.error("Error fetching user details:", error);
     }
