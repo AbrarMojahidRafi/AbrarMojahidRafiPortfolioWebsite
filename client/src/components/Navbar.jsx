@@ -131,7 +131,7 @@ const Navbar = () => {
             className="block text-black hover:underline hover:underline-offset-4 hover:decoration-2 hover:bg-pink-100 px-3 py-2 rounded-md transition-all duration-300"
             onClick={() => setIsMenuOpen(false)}
           >
-            Service
+            Services and Reviews
           </NavLink>
 
           {isLoggedIn ? ( 

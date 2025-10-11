@@ -25,18 +25,14 @@ const contactSchema = mongoose.Schema({
       match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address'],
       index: true
     },
-    message: {
-      type: String,
-      required: [true, 'Message is required'],
-      minLength: [10, 'Message must be at least 10 characters'],
-      maxLength: [1000, 'Message cannot exceed 1000 characters']
-    },
     subject: {
       type: String,
       trim: true,
-      required: [true, 'Subject is required'],
-      minLength: [5, 'Subject must be at least 5 characters'],
-      maxLength: [200, 'Subject cannot exceed 200 characters']
+      required: [true, 'Subject is required']
+    },
+    message: {
+      type: String,
+      required: [true, 'Message is required']
     },
     isRead: {
         type: Boolean,
@@ -72,13 +68,9 @@ function validateContactModel(data){
           .required(),
         
         subject: Joi.string()
-          .min(5)
-          .max(200)
           .required(),
      
         message: Joi.string()
-          .min(10)
-          .max(1000)
           .required(),
         
         isRead: Joi.boolean()

@@ -7,8 +7,8 @@ const ContactUs = () => {
     username: "",
     contact: "",
     email: "",
-    subject: "",
     message: "",
+    subject: "",
   });
 
   const { user } = useAuth();
@@ -46,9 +46,40 @@ const ContactUs = () => {
   };
 
   // handle form on submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(contactInfo);
+    // console.log(contactInfo);
+
+    try {
+      console.log("Submitting contact form...");
+      const response = await fetch(`http://localhost:3000/api/auth/AbrarMojahidRafi_PortfolioWebsite/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(contactInfo),
+      });
+      // console.log("Response Data : ", response);
+      
+      if (response.ok) {
+        const data = await response.json();
+        // console.log("Contact form submitted successfully:", data);
+        alert("Contact form submitted successfully!");
+        setContactInfo({
+          username: user ? user.name : "",
+          contact: user ? user.contact : "",
+          email: user ? user.email : "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        const errorData = await response.text();
+        console.error("Error submitting contact form:", errorData);
+        alert("Error submitting contact form: " + errorData);
+      }
+    } catch (error) {
+      console.log("Error", error);
+    }
   };
 
 return (
