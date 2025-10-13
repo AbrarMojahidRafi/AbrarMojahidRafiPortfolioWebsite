@@ -51,14 +51,34 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const [services, setServices] = useState([]);
+
+  const getServices = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/data/AbrarMojahidRafi_PortfolioWebsite/service", {
+        method: "GET",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // console.log("Services data fetched from backend: ", data);
+        setServices(data.msg); // msg contains all the services array 
+      }
+    } catch (error) {
+      console.log(`Error from the frontend getServices function: ${error}`);
+      
+    }
+  }; 
+
   useEffect(() => {
+    getServices();
     userAuthentication();
   }, []);
 
   
 
   return (
-    <AuthContext.Provider value={{ storeTokenInLS , LogoutUser, isLoggedIn, user }}>
+    <AuthContext.Provider value={{ storeTokenInLS , LogoutUser, isLoggedIn, user , services }}>
       {children}
     </AuthContext.Provider>
   );
