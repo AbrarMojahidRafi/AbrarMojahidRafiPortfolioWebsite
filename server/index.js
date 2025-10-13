@@ -8,6 +8,7 @@ const errorMiddleware = require("./middleware/error-middleware");
 const router = require("./router/auth-router");
 const contactsRouter = require("./router/contacts-router");
 const cors = require("cors");
+const servicesRouter = require("./router/services-router");
 
 // models
 // const hishaabModel = require("./models/hishaab"); // format 
@@ -35,6 +36,7 @@ app.use(cors(corsOptions));
 
 app.use("/api/auth/AbrarMojahidRafi_PortfolioWebsite", router);
 app.use("/api/auth/AbrarMojahidRafi_PortfolioWebsite", contactsRouter);
+app.use("/api/data/AbrarMojahidRafi_PortfolioWebsite", servicesRouter);
 
 
 app.listen(3000, () => {
