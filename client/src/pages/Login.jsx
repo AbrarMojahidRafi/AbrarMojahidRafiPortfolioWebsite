@@ -35,9 +35,9 @@ const Login = () => {
         },
         body: JSON.stringify(credentials),
       });
-
+      const responseData = await response.json();
       if (response.ok) {
-        const responseData = await response.json();
+        
         // console.log("after login: ", responseData);
         console.log("Login successful");
         storeTokenInLS(responseData.token);
@@ -45,6 +45,7 @@ const Login = () => {
       }
     } catch (error) {
       console.log(error);
+      alert("Login failed. Please try again.");
     }
   };
 

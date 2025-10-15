@@ -47,7 +47,7 @@ const Register = () => {
         // console.log(responseData);
         navigate('/login');
       } else {
-        console.log("Error inside RESPONSE:", "Error");
+        console.log("Error inside Register.jsx RESPONSE:", "Error");
       }
     } catch (error) {
       console.error("Error", error);

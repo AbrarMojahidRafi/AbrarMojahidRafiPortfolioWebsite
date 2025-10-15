@@ -33,7 +33,7 @@ const register = async (req, res) => {
         // Check if user with the same email already exists
         const userExists = await UserModel.findOne({ email });
         if(userExists){
-            return res.status(400).send("User with this email already exists.");
+            return res.status(400).send({message: "User with this email already exists."});
         }
 
         // Working on the validation part
