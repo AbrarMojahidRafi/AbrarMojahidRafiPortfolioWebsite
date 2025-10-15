@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { useAuth } from "../store/auth.jsx";
+import { toast } from 'react-toastify';
 
 const ContactUs = () => {
   const [contactInfo, setContactInfo] = useState({
@@ -51,7 +52,7 @@ const ContactUs = () => {
     // console.log(contactInfo);
 
     try {
-      console.log("Submitting contact form...");
+      // console.log("Submitting contact form...");
       const response = await fetch(`http://localhost:3000/api/auth/AbrarMojahidRafi_PortfolioWebsite/contact`, {
         method: "POST",
         headers: {
@@ -64,7 +65,9 @@ const ContactUs = () => {
       if (response.ok) {
         const data = await response.json();
         // console.log("Contact form submitted successfully:", data);
-        alert("Contact form submitted successfully!");
+        // alert("Contact form submitted successfully!");
+        toast.success("Contact form submitted successfully!");
+        // Reset form fields, but keep user info if logged in
         setContactInfo({
           username: user ? user.name : "",
           contact: user ? user.contact : "",
@@ -74,11 +77,13 @@ const ContactUs = () => {
         });
       } else {
         const errorData = await response.text();
-        console.error("Error submitting contact form:", errorData);
-        alert("Error submitting contact form: " + errorData);
+        // console.error("Error submitting contact form:", errorData);
+        // alert("Error submitting contact form: " + errorData); 
+        toast.error("Error submitting contact form: " + errorData);
       }
     } catch (error) {
-      console.log("Error", error);
+      // console.log("Error", error);
+      toast.error("Error submitting contact form. Please try again.");
     }
   };
 

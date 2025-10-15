@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from "../store/auth.jsx";
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -39,13 +40,16 @@ const Login = () => {
       if (response.ok) {
         
         // console.log("after login: ", responseData);
-        console.log("Login successful");
-        storeTokenInLS(responseData.token);
+        // console.log("Login successful");
+        toast.success("Login successful");
+        storeTokenInLS(responseData.token); 
+        setCredentials({ email: "", password: "" }); 
         navigate("/");
       }
     } catch (error) {
-      console.log(error);
-      alert("Login failed. Please try again.");
+      // console.log(error); 
+      toast.error("Login failed. Please try again.", error);
+      // alert("Login failed. Please try again.");
     }
   };
 

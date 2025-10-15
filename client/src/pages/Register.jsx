@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../store/auth.jsx";
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const [user, setUser] = useState({
@@ -37,20 +38,26 @@ const Register = () => {
         },
         body: JSON.stringify(user),
       });
-      // console.log("Response Data : ", response);
+      // console.log("Response : ", response);
 
+      const responseData = await response.json();
+      // console.log("Response Data : ", responseData);
       if (response.ok) {
-        const responseData = await response.json();
-        console.log("registration successful");
+        // console.log("registration successful");
+        toast.success("Registration successful");
         storeTokenInLS(responseData.token);
         setUser({ username: "", email: "", phone: "", password: "" });
         // console.log(responseData);
         navigate('/login');
       } else {
+        // console.log("Response Data : ", responseData);  //  {message: 'User with this email already exists.'} 
+        toast.error(responseData.message);
         console.log("Error inside Register.jsx RESPONSE:", "Error");
       }
     } catch (error) {
-      console.error("Error", error);
+      // console.error("Error", error);
+      toast.error("Registration failed. Please try again.");
+      // alert("Registration failed. Please try again.");
     }
   };
 

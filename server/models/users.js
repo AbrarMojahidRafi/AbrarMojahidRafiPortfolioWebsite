@@ -17,6 +17,8 @@ const userSchema = mongoose.Schema({
       type: String,
       trim: true,
       required: [true, 'Contact is required'],
+      minLength: [10, 'Contact must be at least 10 characters'],
+      maxLength: [15, 'Contact cannot exceed 15 characters'],
       index: true
     },
     email: {
