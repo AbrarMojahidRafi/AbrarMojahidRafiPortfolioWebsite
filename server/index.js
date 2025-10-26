@@ -9,6 +9,7 @@ const router = require("./router/auth-router");
 const contactsRouter = require("./router/contacts-router");
 const cors = require("cors");
 const servicesRouter = require("./router/services-router");
+const adminRouter = require("./router/admin-router");
 
 // models
 // const hishaabModel = require("./models/hishaab"); // format 
@@ -37,7 +38,7 @@ app.use(cors(corsOptions));
 app.use("/api/auth/AbrarMojahidRafi_PortfolioWebsite", router);
 app.use("/api/auth/AbrarMojahidRafi_PortfolioWebsite", contactsRouter);
 app.use("/api/data/AbrarMojahidRafi_PortfolioWebsite", servicesRouter);
-
+app.use("/api/admin/AbrarMojahidRafi_PortfolioWebsite", adminRouter);
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
