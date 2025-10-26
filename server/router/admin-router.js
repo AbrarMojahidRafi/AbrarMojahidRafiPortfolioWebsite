@@ -6,7 +6,7 @@ const router = express.Router();
 
 const adminController = require("../controllers/admin-controller");
 
-router.route("/users").post(authMiddleware, adminMiddleware, adminController.getAllUsers);
-router.route("/contacts").post(authMiddleware, adminMiddleware, adminController.getAllContacts);
+router.route("/users").get(authMiddleware, adminMiddleware, adminController.getAllUsers);
+router.route("/contacts").get(authMiddleware, adminMiddleware, adminController.getAllContacts);
 
 module.exports = router;
