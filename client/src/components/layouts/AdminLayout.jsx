@@ -3,6 +3,7 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 
 const AdminLayout = () => {
   const [activeItem, setActiveItem] = useState('/admin/users');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -16,6 +17,10 @@ const AdminLayout = () => {
   const handleNavClick = (path) => {
     setActiveItem(path);
     navigate(path);
+    // Mobile এ sidebar auto close
+    if (window.innerWidth < 768) {
+      setIsSidebarOpen(false);
+    }
   };
 
   // Get current page title
@@ -23,11 +28,32 @@ const AdminLayout = () => {
 
   return (
     <div className="flex h-screen bg-gray-100">
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar/Navbar */}
-      <div className="w-64 bg-gray-800 text-white flex flex-col">
-        {/* Sidebar Header */}
-        <div className="p-6 border-b border-gray-700">
+      <div className={`
+        fixed md:static inset-y-0 left-0 z-30
+        w-64 bg-gray-800 text-white flex flex-col
+        transform transition-transform duration-300 ease-in-out
+        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+      `}>
+        {/* Sidebar Header with Close Button */}
+        <div className="p-6 border-b border-gray-700 flex items-center justify-between">
           <h2 className="text-xl font-bold text-white">Admin Panel</h2>
+          <button 
+            onClick={() => setIsSidebarOpen(false)}
+            className="md:hidden p-2 rounded-lg hover:bg-gray-700 transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
         
         {/* Navigation Items */}
@@ -63,12 +89,37 @@ const AdminLayout = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top Header */}
+      <div className="flex-1 flex flex-col overflow-hidden md:ml-0">
+        {/* Top Header with Mobile Menu Button */}
         <header className="bg-white shadow-sm border-b border-gray-200">
-          <div className="px-6 py-4">
-            <h1 className="text-2xl font-bold text-gray-800">{currentPageTitle}</h1>
-            <p className="text-gray-600 mt-1">Admin Panel - {currentPageTitle} Management</p>
+          <div className="px-6 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              {/* Mobile Menu Button */}
+              <button 
+                onClick={() => setIsSidebarOpen(true)}
+                className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+              
+              <div>
+                <h1 className="text-2xl font-bold text-gray-800">{currentPageTitle}</h1>
+                <p className="text-gray-600 mt-1">Admin Panel - {currentPageTitle} Management</p>
+              </div>
+            </div>
+            
+            {/* Desktop Admin Info */}
+            <div className="hidden md:flex items-center gap-3 px-4 py-2 text-gray-700">
+              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold">A</span>
+              </div>
+              <div className="text-right">
+                <p className="text-sm font-medium">Admin</p>
+                <p className="text-xs text-gray-500">Administrator</p>
+              </div>
+            </div>
           </div>
         </header>
 
