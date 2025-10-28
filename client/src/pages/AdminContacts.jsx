@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react'
 
-const AdminUsers = () => {
+const AdminContacts = () => {
     const [contacts, setcontacts] = React.useState([]);
 
     const getAllContactsData = async ()=> {
@@ -24,7 +24,7 @@ const AdminUsers = () => {
 
     useEffect( () => {
         getAllContactsData(); 
-    });
+    }, []);
 
     return (
         <>
@@ -36,47 +36,55 @@ const AdminUsers = () => {
                         <table className="min-w-full table-auto">
                             <thead className="bg-gray-50">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                         Name
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                         Email
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                         Phone
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                         Subject
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                         Message
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Delete
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                                        Actions
                                     </th>
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {contacts.map((contact, index) => (
                                     <tr key={index} className="hover:bg-gray-50 transition-colors">
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm font-medium text-gray-900">{contact.name}</div>
+                                        <td className="px-4 py-4">
+                                            <div className="text-sm font-medium text-gray-900 whitespace-normal break-words">
+                                                {contact.name}
+                                            </div>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm text-gray-500">{contact.email}</div>
+                                        <td className="px-4 py-4">
+                                            <div className="text-sm text-gray-500 whitespace-normal break-words">
+                                                {contact.email}
+                                            </div>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm text-gray-500">{contact.phone || 'N/A'}</div>
+                                        <td className="px-4 py-4">
+                                            <div className="text-sm text-gray-500 whitespace-normal break-words">
+                                                {contact.phone || 'N/A'}
+                                            </div>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm text-gray-500">{contact.subject || 'N/A'}</div>
+                                        <td className="px-4 py-4">
+                                            <div className="text-sm text-gray-500 whitespace-normal break-all">
+                                                {contact.subject || 'N/A'}
+                                            </div>
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <div className="text-sm text-gray-500 max-w-xs truncate">
+                                        <td className="px-4 py-4">
+                                            <div className="text-sm text-gray-500 whitespace-normal break-words max-w-md">
                                                 {contact.message || 'N/A'}
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
+                                        <td className="px-4 py-4 whitespace-nowrap">
                                             <button className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm font-medium transition-colors">
                                                 Delete
                                             </button>
@@ -86,10 +94,18 @@ const AdminUsers = () => {
                             </tbody>
                         </table>
                     </div>
+                    
+                    {/* Empty State */}
+                    {contacts.length === 0 && (
+                        <div className="text-center py-8">
+                            <div className="text-gray-500 text-lg">No contacts found</div>
+                            <div className="text-gray-400 text-sm mt-2">There are no contact messages to display</div>
+                        </div>
+                    )}
                 </div>
             </div>
         </>
     )
 }
 
-export default AdminUsers
+export default AdminContacts

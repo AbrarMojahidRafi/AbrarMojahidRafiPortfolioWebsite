@@ -23,7 +23,7 @@ const AdminUsers = () => {
 
     useEffect( () => {
         getAllUsersData(); 
-    });
+    }, []);
 
     return (
         <>

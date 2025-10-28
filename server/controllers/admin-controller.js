@@ -1,9 +1,11 @@
 const { UserModel } = require("../models/users");
 const { ContactModel } = require("../models/contacts");
-getAllUsers = async (req, res) => {
+
+
+const getAllUsers = async (req, res) => {
     try {
         const users = await UserModel.find({}, '-password'); // Exclude password field
-        console.log(users);
+        // console.log(users);
         if (users.length === 0) {
             return res.status(404).send({ message: "No users found" });
         }
@@ -14,10 +16,10 @@ getAllUsers = async (req, res) => {
     }
 }
 
-getAllContacts = async (req, res) => {
+const getAllContacts = async (req, res) => {
     try {
         const contacts = await ContactModel.find({});
-        console.log(contacts);
+        // console.log(contacts);
         if (contacts.length === 0) {
             return res.status(404).send({ message: "No contacts found" });
         } 
