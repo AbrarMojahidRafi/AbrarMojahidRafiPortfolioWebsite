@@ -1,5 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const AdminContacts = () => {
     const [contacts, setcontacts] = React.useState([]);
@@ -19,6 +21,56 @@ const AdminContacts = () => {
             setcontacts(data.contacts);
         } catch (error) {
             console.log("Error while getting all users data", error);
+        }
+    };
+
+    const deleteContact = async (contactId) => {
+        // Show loading toast
+        const toastId = toast.loading("Deleting contact...");
+        
+        try {
+            const response = await fetch(`http://localhost:3000/api/admin/AbrarMojahidRafi_PortfolioWebsite/contacts/delete/${contactId}`, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+
+            const data = await response.json();
+            // console.log("Delete contact response from backend: ", data);   
+
+            // Refresh the contacts list after deletion
+            if (response.ok) {
+                // Update toast to success
+                toast.update(toastId, {
+                    render: "Contact deleted successfully!",
+                    type: "success",
+                    isLoading: false,
+                    autoClose: 3000,
+                    closeButton: true,
+                });
+                getAllContactsData();
+            } else {
+                // Update toast to error
+                toast.update(toastId, {
+                    render: data.message || "Failed to delete contact!",
+                    type: "error",
+                    isLoading: false,
+                    autoClose: 3000,
+                    closeButton: true,
+                });
+            }
+        } catch (error) {
+            console.log("Error while deleting contact", error);
+            // Update toast to error
+            toast.update(toastId, {
+                render: "Error deleting contact!",
+                type: "error",
+                isLoading: false,
+                autoClose: 3000,
+                closeButton: true,
+            });
         }
     };
 
@@ -85,7 +137,10 @@ const AdminContacts = () => {
                                             </div>
                                         </td>
                                         <td className="px-4 py-4 whitespace-nowrap">
-                                            <button className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm font-medium transition-colors">
+                                            <button 
+                                                className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm font-medium transition-colors"
+                                                onClick={() => { deleteContact(contact._id) }}
+                                            >
                                                 Delete
                                             </button>
                                         </td>
@@ -104,6 +159,20 @@ const AdminContacts = () => {
                     )}
                 </div>
             </div>
+
+            {/* Toast Container */}
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </>
     )
 }

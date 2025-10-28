@@ -1,5 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const AdminUsers = () => {
     const [users, setUsers] = React.useState([]);
@@ -18,6 +20,56 @@ const AdminUsers = () => {
             setUsers(data.users);
         } catch (error) {
             console.log("Error while getting all users data", error);
+        }
+    };
+
+    const deleteUser = async (userId) => {
+        // Show loading toast
+        const toastId = toast.loading("Deleting user...");
+        
+        try {
+            const response = await fetch(`http://localhost:3000/api/admin/AbrarMojahidRafi_PortfolioWebsite/users/delete/${userId}`, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+
+            const data = await response.json();
+            // console.log("Delete user response from backend: ", data);   
+
+            // Refresh the users list after deletion
+            if (response.ok) {
+                // Update toast to success
+                toast.update(toastId, {
+                    render: "User deleted successfully!",
+                    type: "success",
+                    isLoading: false,
+                    autoClose: 3000,
+                    closeButton: true,
+                });
+                getAllUsersData();
+            } else {
+                // Update toast to error
+                toast.update(toastId, {
+                    render: data.message || "Failed to delete user!",
+                    type: "error",
+                    isLoading: false,
+                    autoClose: 3000,
+                    closeButton: true,
+                });
+            }
+        } catch (error) {
+            console.log("Error while deleting user", error);
+            // Update toast to error
+            toast.update(toastId, {
+                render: "Error deleting user!",
+                type: "error",
+                isLoading: false,
+                autoClose: 3000,
+                closeButton: true,
+            });
         }
     };
 
@@ -70,7 +122,10 @@ const AdminUsers = () => {
                                             </button>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <button className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm font-medium transition-colors">
+                                            <button 
+                                                className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm font-medium transition-colors" 
+                                                onClick={() => { deleteUser(user._id) }}
+                                            >
                                                 Delete
                                             </button>
                                         </td>
@@ -81,6 +136,20 @@ const AdminUsers = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Toast Container */}
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </>
     )
 }

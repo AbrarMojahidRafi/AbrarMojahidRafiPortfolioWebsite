@@ -8,5 +8,7 @@ const adminController = require("../controllers/admin-controller");
 
 router.route("/users").get(authMiddleware, adminMiddleware, adminController.getAllUsers);
 router.route("/contacts").get(authMiddleware, adminMiddleware, adminController.getAllContacts);
+router.route("/users/delete/:id").delete(authMiddleware, adminMiddleware, adminController.deleteUserById);
+router.route("/contacts/delete/:id").delete(authMiddleware, adminMiddleware, adminController.deleteContactById);
 
 module.exports = router;

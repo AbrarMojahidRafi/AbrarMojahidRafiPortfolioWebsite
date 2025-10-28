@@ -30,4 +30,32 @@ const getAllContacts = async (req, res) => {
     }
 };
 
-module.exports = { getAllUsers, getAllContacts }; 
+const deleteUserById = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const deletedUser = await UserModel.findByIdAndDelete(userId);
+        if (!deletedUser) {
+            return res.status(404).send({ message: "User not found" });
+        }
+        return res.status(200).send({ message: "User deleted successfully", user: deletedUser });
+    } catch (error) {
+        console.error("Error deleting user:", error);
+        return res.status(500).send({ message: `Error deleting user: ${error}` });
+    }
+};
+
+const deleteContactById = async (req, res) => {
+    try {
+        const contactId = req.params.id;
+        const deletedContact = await ContactModel.findByIdAndDelete(contactId);
+        if (!deletedContact) {
+            return res.status(404).send({ message: "Contact not found" });
+        }
+        return res.status(200).send({ message: "Contact deleted successfully", contact: deletedContact });
+    } catch (error) {
+        console.error("Error deleting contact:", error);
+        return res.status(500).send({ message: `Error deleting contact: ${error}` });
+    }
+}
+
+module.exports = { getAllUsers, getAllContacts, deleteUserById, deleteContactById };
