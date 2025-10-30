@@ -2,6 +2,7 @@ const { UserModel } = require("../models/users");
 const { ContactModel } = require("../models/contacts");
 const { name } = require("ejs");
 const { contact } = require("./contacts-controller");
+const { validateServiceModel, ServiceModel } = require("../models/services");
 
 const getAllUsers = async (req, res) => {
   try {
@@ -113,6 +114,86 @@ const updateUserById = async (req, res) => {
   }
 };
 
+const deleteService = async (req, res) => {
+  try {
+    const serviceId = req.params.serviceId;
+    const deletedService = await ServiceModel.findByIdAndDelete(serviceId);
+    if (!deletedService) {
+      return res.status(404).send({ message: "Service not found" });
+    }
+    return res.status(200).send({
+      message: "Service deleted successfully",
+      service: deletedService,
+    });
+  } catch (error) {
+    console.error("Error deleting service:", error);
+    return res
+      .status(500)
+      .send({ message: `Error deleting service: ${error}` });
+  }
+};
+
+// Get service by ID
+const getServiceById = async (req, res) => {
+  try {
+    const serviceId = req.params.serviceId;
+    const service = await ServiceModel.findOne({ _id: serviceId });
+
+    if (!service) {
+      return res.status(404).send({ message: "Service not found" });
+    }
+
+    return res.status(200).send({
+      message: "Service data fetched successfully",
+      service: service,
+    });
+  } catch (error) {
+    console.error("Error fetching service:", error);
+    return res
+      .status(500)
+      .send({ message: `Error fetching service: ${error}` });
+  }
+};
+
+// Update service by ID
+const updateServiceById = async (req, res) => {
+  try {
+    const serviceId = req.params.serviceId;
+    const { service_name, service_description, delivery_time, price_range } =
+      req.body;
+
+    const updateData = {
+      service_name,
+      service_description,
+      delivery_time,
+      price_range,
+    };
+
+    // console.log("Update service data received in backend:", updateData);
+
+    const updatedService = await ServiceModel.updateOne(
+      { _id: serviceId },
+      { $set: updateData }
+    );
+
+    // console.log("Updated service in backend:", updatedService);
+
+    if (!updatedService) {
+      return res.status(404).send({ message: "Service not found" });
+    }
+
+    return res.status(200).send({
+      message: "Service updated successfully",
+      service: updatedService,
+    });
+  } catch (error) {
+    console.error("Error updating service:", error);
+    return res
+      .status(500)
+      .send({ message: `Error updating service: ${error}` });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getAllContacts,
@@ -120,4 +201,7 @@ module.exports = {
   deleteContactById,
   getUserById,
   updateUserById,
+  deleteService,
+  getServiceById,
+  updateServiceById,
 };

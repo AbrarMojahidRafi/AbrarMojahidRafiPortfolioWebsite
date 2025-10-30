@@ -25,4 +25,16 @@ router
   .route("/user/update/:id")
   .patch(authMiddleware, adminMiddleware, adminController.updateUserById);
 
+// service delete route
+router
+  .route("/services/delete/:serviceId")
+  .delete(authMiddleware, adminMiddleware, adminController.deleteService);
+// service edit button route
+router
+  .route("/services/edit/:serviceId")
+  .get(authMiddleware, adminMiddleware, adminController.getServiceById);
+router
+  .route("/services/update/:serviceId")
+  .patch(authMiddleware, adminMiddleware, adminController.updateServiceById);
+
 module.exports = router;

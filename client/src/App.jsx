@@ -14,8 +14,8 @@ import AdminUsers from "./pages/AdminUsers";
 import AdminContacts from "./pages/AdminContacts";
 import AdminServices from "./pages/AdminServices";
 import AdminAboutMe from "./pages/AdminAboutMe";
-// import AdminUpdate from "./components/AdminUpdate";
 import AdminUpdate from "./pages/AdminUpdate";
+import AdminServiceUpdate from "./pages/AdminServiceUpdate";
 
 function App() {
   return (
@@ -33,10 +33,14 @@ function App() {
           <Route path="*" element={<Error />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="users" element={<AdminUsers />} />
-            {/* <Route path="`/user/edit/${userId}`" element={<AdminUpate />} /> */}
             <Route path="user/edit/:id" element={<AdminUpdate />} />
             <Route path="contacts" element={<AdminContacts />} />
             <Route path="services" element={<AdminServices />} />
+            {/* /admin/service/edit/:serviceId */}
+            <Route
+              path="service/edit/:serviceId"
+              element={<AdminServiceUpdate />}
+            />
             <Route path="abouts" element={<AdminAboutMe />} />
           </Route>
         </Routes>
