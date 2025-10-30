@@ -64,7 +64,6 @@ const AdminUpdate = () => {
       ...user,
       [name]: value,
     }));
-    // console.log({ ...user, [name]: value });
   };
 
   // Handle form submission
@@ -72,9 +71,10 @@ const AdminUpdate = () => {
     e.preventDefault();
     setLoading(true);
 
-    try {
-      // console.log("Submitting user data:", user, id); // user er moddhe thik thak vabe changes ashteche. Now backend e pathacchi.
+    // Show loading toast
+    const toastId = toast.loading("Updating user...");
 
+    try {
       const response = await fetch(
         `http://localhost:3000/api/admin/AbrarMojahidRafi_PortfolioWebsite/user/update/${id}`,
         {
@@ -88,31 +88,49 @@ const AdminUpdate = () => {
       );
 
       const data = await response.json();
-      // console.log("Update user response from backend: ", data);
 
       if (!response.ok) {
-        console.log("Error response data:", data);
-        toast.error(data.message || "Failed to update user");
+        // Update toast to error
+        toast.update(toastId, {
+          render: data.message || "Failed to update user!",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+          closeButton: true,
+        });
         throw new Error(data.message || "Failed to update user");
       }
 
-      toast.success("User updated successfully!");
+      // Update toast to success
+      toast.update(toastId, {
+        render: "User updated successfully!",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+        closeButton: true,
+      });
 
-      // Redirect after successful update
-      // setTimeout(() => {
-      //   navigate("/admin/users");
-      // }, 2000);
-      navigate("/admin/users");
+      // Redirect after successful update with delay to show toast
+      setTimeout(() => {
+        navigate("/admin/users");
+      }, 1500);
+
     } catch (error) {
       console.error("Error updating user:", error);
-      toast.error(error.message || "Failed to update user");
+      // Ensure toast is updated even if there's an unexpected error
+      if (!toast.isActive(toastId)) {
+        toast.error(error.message || "Failed to update user");
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  // Handle cancel
+  // Handle cancel with confirmation toast
   const handleCancel = () => {
+    toast.info("Cancelled editing user", {
+      autoClose: 2000,
+    });
     navigate("/admin/users");
   };
 
