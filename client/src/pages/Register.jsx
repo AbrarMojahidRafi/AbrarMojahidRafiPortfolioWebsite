@@ -1,8 +1,8 @@
-import React from 'react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../store/auth.jsx";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [user, setUser] = useState({
@@ -31,13 +31,16 @@ const Register = () => {
     // console.log(user);
 
     try {
-      const response = await fetch(`http://localhost:3000/api/auth/AbrarMojahidRafi_PortfolioWebsite/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/auth/AbrarMojahidRafi_PortfolioWebsite/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        }
+      );
       // console.log("Response : ", response);
 
       const responseData = await response.json();
@@ -48,9 +51,9 @@ const Register = () => {
         storeTokenInLS(responseData.token);
         setUser({ username: "", email: "", phone: "", password: "" });
         // console.log(responseData);
-        navigate('/login');
+        navigate("/login");
       } else {
-        // console.log("Response Data : ", responseData);  //  {message: 'User with this email already exists.'} 
+        // console.log("Response Data : ", responseData);  //  {message: 'User with this email already exists.'}
         toast.error(responseData.message);
         console.log("Error inside Register.jsx RESPONSE:", "Error");
       }
@@ -74,17 +77,22 @@ const Register = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-            
+
             {/* Registration Form */}
             <div className="py-12 px-6 sm:px-12">
               <div className="text-center">
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">Registration Form</h1>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                  Registration Form
+                </h1>
                 <p className="text-gray-600">Create your account</p>
               </div>
-              
+
               <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                 <div>
-                  <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="username"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Username
                   </label>
                   <input
@@ -97,9 +105,12 @@ const Register = () => {
                     required
                   />
                 </div>
-                
+
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Email
                   </label>
                   <input
@@ -112,9 +123,12 @@ const Register = () => {
                     required
                   />
                 </div>
-                
+
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Phone
                   </label>
                   <input
@@ -127,9 +141,12 @@ const Register = () => {
                     required
                   />
                 </div>
-                
+
                 <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Password
                   </label>
                   <input
@@ -142,7 +159,7 @@ const Register = () => {
                     required
                   />
                 </div>
-                
+
                 <div>
                   <button
                     type="submit"
@@ -160,4 +177,4 @@ const Register = () => {
   );
 };
 
-export default Register
+export default Register;
