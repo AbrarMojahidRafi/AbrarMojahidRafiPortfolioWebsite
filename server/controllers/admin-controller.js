@@ -194,6 +194,32 @@ const updateServiceById = async (req, res) => {
   }
 };
 
+const createService = async (req, res) => {
+  try {
+    const { service_name, service_description, delivery_time, price_range } =
+      req.body;
+
+    const newService = new ServiceModel({
+      service_name,
+      service_description,
+      delivery_time,
+      price_range,
+    });
+
+    const savedService = await newService.save();
+
+    return res.status(201).send({
+      message: "Service created successfully",
+      service: savedService,
+    });
+  } catch (error) {
+    console.error("Error creating service:", error);
+    return res
+      .status(500)
+      .send({ message: `Error creating service: ${error}` });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getAllContacts,
@@ -204,4 +230,5 @@ module.exports = {
   deleteService,
   getServiceById,
   updateServiceById,
+  createService,
 };

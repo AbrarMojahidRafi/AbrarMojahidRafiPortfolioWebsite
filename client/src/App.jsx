@@ -16,6 +16,7 @@ import AdminServices from "./pages/AdminServices";
 import AdminAboutMe from "./pages/AdminAboutMe";
 import AdminUpdate from "./pages/AdminUpdate";
 import AdminServiceUpdate from "./pages/AdminServiceUpdate";
+import AdminNewService from "./pages/AdminNewService";
 
 function App() {
   return (
@@ -41,6 +42,8 @@ function App() {
               path="service/edit/:serviceId"
               element={<AdminServiceUpdate />}
             />
+            {/* /admin/service/create  */}
+            <Route path="/admin/service/create" element={<AdminNewService />} />
             <Route path="abouts" element={<AdminAboutMe />} />
           </Route>
         </Routes>

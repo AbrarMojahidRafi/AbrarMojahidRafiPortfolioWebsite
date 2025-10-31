@@ -96,7 +96,7 @@ const AdminServices = () => {
 
   useEffect(() => {
     getAllServicesData();
-  }, [getAllServicesData]);
+  }, []);
 
   // Loading state
   if (loading) {

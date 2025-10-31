@@ -35,6 +35,9 @@ router
   .get(authMiddleware, adminMiddleware, adminController.getServiceById);
 router
   .route("/services/update/:serviceId")
-  .patch(authMiddleware, adminMiddleware, adminController.updateServiceById);
+  .patch(authMiddleware, adminMiddleware, adminController.updateServiceById); 
+router
+  .route("/services/create")
+  .post(authMiddleware, adminMiddleware, adminController.createService);
 
 module.exports = router;
