@@ -1,17 +1,29 @@
-import React, { useState } from 'react';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import React, { useState } from "react";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../store/auth";
+import { Navigate } from "react-router-dom";
 
 const AdminLayout = () => {
-  const [activeItem, setActiveItem] = useState('/admin/users');
+  const [activeItem, setActiveItem] = useState("/admin/users");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, isLoading } = useAuth();
+  console.log("corrnet user", user);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user.isAdmin) {
+    return <Navigate to="/" replace />;
+  }
 
   const navItems = [
-    { id: 'users', label: 'Users', icon: '👥', path: '/admin/users' },
-    { id: 'contacts', label: 'Contacts', icon: '📞', path: '/admin/contacts' },
-    { id: 'services', label: 'Services', icon: '🛠️', path: '/admin/services' },
-    { id: 'abouts', label: 'About Me', icon: '🤹‍♀️', path: '/admin/abouts' },
+    { id: "users", label: "Users", icon: "👥", path: "/admin/users" },
+    { id: "contacts", label: "Contacts", icon: "📞", path: "/admin/contacts" },
+    { id: "services", label: "Services", icon: "🛠️", path: "/admin/services" },
+    { id: "abouts", label: "About Me", icon: "🤹‍♀️", path: "/admin/abouts" },
   ];
 
   const handleNavClick = (path) => {
@@ -24,38 +36,53 @@ const AdminLayout = () => {
   };
 
   // Get current page title
-  const currentPageTitle = navItems.find(item => item.path === location.pathname)?.label || 'User';
+  const currentPageTitle =
+    navItems.find((item) => item.path === location.pathname)?.label || "User";
 
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar/Navbar */}
-      <div className={`
+      <div
+        className={`
         fixed md:static inset-y-0 left-0 z-30
         w-64 bg-gray-800 text-white flex flex-col
         transform transition-transform duration-300 ease-in-out
-        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
-      `}>
+        ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+        }
+      `}
+      >
         {/* Sidebar Header with Close Button */}
         <div className="p-6 border-b border-gray-700 flex items-center justify-between">
           <h2 className="text-xl font-bold text-white">Admin Panel</h2>
-          <button 
+          <button
             onClick={() => setIsSidebarOpen(false)}
             className="md:hidden p-2 rounded-lg hover:bg-gray-700 transition-colors"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
-        
+
         {/* Navigation Items */}
         <nav className="flex-1 p-4 space-y-2">
           {navItems.map((item) => (
@@ -63,9 +90,9 @@ const AdminLayout = () => {
               key={item.id}
               onClick={() => handleNavClick(item.path)}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                activeItem === item.path 
-                  ? 'bg-blue-600 text-white shadow-lg' 
-                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                activeItem === item.path
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white"
               }`}
             >
               <span className="text-lg">{item.icon}</span>
@@ -95,21 +122,35 @@ const AdminLayout = () => {
           <div className="px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-4">
               {/* Mobile Menu Button */}
-              <button 
+              <button
                 onClick={() => setIsSidebarOpen(true)}
                 className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 </svg>
               </button>
-              
+
               <div>
-                <h1 className="text-2xl font-bold text-gray-800">{currentPageTitle}</h1>
-                <p className="text-gray-600 mt-1">Admin Panel - {currentPageTitle} Management</p>
+                <h1 className="text-2xl font-bold text-gray-800">
+                  {currentPageTitle}
+                </h1>
+                <p className="text-gray-600 mt-1">
+                  Admin Panel - {currentPageTitle} Management
+                </p>
               </div>
             </div>
-            
+
             {/* Desktop Admin Info */}
             <div className="hidden md:flex items-center gap-3 px-4 py-2 text-gray-700">
               <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">

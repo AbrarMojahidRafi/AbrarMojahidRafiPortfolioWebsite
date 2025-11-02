@@ -4,6 +4,7 @@ import { createContext, useContext, useState } from "react";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [isLoading, setIsLoading] = useState(false);
 
   //function to stored the token in local storage
   const storeTokenInLS = (serverToken) => {
@@ -13,30 +14,32 @@ export const AuthProvider = ({ children }) => {
 
   const [token, setToken] = useState(localStorage.getItem("token") || null);
 
-  const isLoggedIn = !!token; // if token is present then true otherwise false 
+  const isLoggedIn = !!token; // if token is present then true otherwise false
 
   // tackeling the logout functionality
   const LogoutUser = () => {
     console.log("User Logged Out Successfully");
     setToken(null);
     return localStorage.removeItem("token");
-  }; 
+  };
 
-  // jwt authentication to get the currently user data. 
-  const [user, setUser] = useState(null); 
-  
+  // jwt authentication to get the currently user data.
+  const [user, setUser] = useState(null);
+
   const userAuthentication = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/auth/AbrarMojahidRafi_PortfolioWebsite/user", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await fetch(
+        "http://localhost:3000/api/auth/AbrarMojahidRafi_PortfolioWebsite/user",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       // console.log("Response from user auth endpoint: ", response);
-      
 
       if (response.ok) {
         const data = await response.json();
@@ -44,8 +47,10 @@ export const AuthProvider = ({ children }) => {
 
         // our main goal is to get the user data from the backend
         setUser(data.userData); // user get all the data, except password
+        setIsLoading(false);
       } else {
         console.error("Error fetching user data");
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("Error during user authentication:", error);
@@ -56,30 +61,39 @@ export const AuthProvider = ({ children }) => {
 
   const getServices = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/data/AbrarMojahidRafi_PortfolioWebsite/service", {
-        method: "GET",
-      });
+      const response = await fetch(
+        "http://localhost:3000/api/data/AbrarMojahidRafi_PortfolioWebsite/service",
+        {
+          method: "GET",
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
         // console.log("Services data fetched from backend: ", data);
-        setServices(data.msg); // msg contains all the services array 
+        setServices(data.msg); // msg contains all the services array
       }
     } catch (error) {
       console.log(`Error from the frontend getServices function: ${error}`);
-      
     }
-  }; 
+  };
 
   useEffect(() => {
     getServices();
     userAuthentication();
   }, []);
 
-  
-
   return (
-    <AuthContext.Provider value={{ storeTokenInLS , LogoutUser, isLoggedIn, user , services }}>
+    <AuthContext.Provider
+      value={{
+        storeTokenInLS,
+        LogoutUser,
+        isLoggedIn,
+        user,
+        services,
+        isLoading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
