@@ -33,7 +33,7 @@ const AdminServices = () => {
       const data = await response.json();
       // console.log("All services data from backend: ", data);
 
-      setServices(data || []);
+      setServices(data.msg || []);
     } catch (error) {
       console.error("Error while getting all services data", error);
       toast.error("Failed to load services data!");

@@ -9,7 +9,7 @@ const service = async (req, res) => {
     }
     // console.log(response);
 
-    return res.status(200).json(response);
+    return res.status(200).json({ msg: response });
   } catch (error) {
     console.error("Error in service controller:", error);
   }
